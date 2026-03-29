@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Animation</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let t = 0;
+
+    function heart(t) {
+        let x = 14 * Math.pow(Math.sin(t), 3);
+        let y = 13 * Math.cos(t) - 5 * Math.cos(2*t)
+              - 2 * Math.cos(3*t) - Math.cos(4*t);
+        return {x, y};
+    }
+
+    function draw() {
+        ctx.fillStyle = "rgba(0,0,0,0.1)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < 200; i++) {
+            let tt = t + i * 0.05;
+            let pos = heart(tt);
+
+            let x = canvas.width/2 + pos.x * 12;
+            let y = canvas.height/2 - pos.y * 13;
+
+            ctx.fillStyle = "red";
+            ctx.font = "14px Arial";
+            ctx.fillText("love u ratoja", x, y);
+        }
+
+        ctx.fillStyle = "white";
+        ctx.font = "10px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("By hossam", canvas.width/2, canvas.height - 80);
+        ctx.fillText("To ratoja", canvas.width/1.9, canvas.height - 70);
+
+        t += 0.1;
+        requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
